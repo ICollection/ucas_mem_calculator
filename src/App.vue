@@ -1,0 +1,29 @@
+<script setup lang="ts">
+import { RouterView } from 'vue-router'
+</script>
+
+<template>
+  <el-container style="height: 100vh; width: 100vw;">
+    <el-header>
+      <el-menu mode="horizontal" router>
+        <el-sub-menu index="1">
+          <template #title>定量分析</template>
+          <el-menu-item index="/QAMM/AHP">层次分析法</el-menu-item>
+        </el-sub-menu>
+        <el-sub-menu index="2">
+          <template #title>复杂系统决策</template>
+          <el-menu-item index="/CSD/AHP">层次分析法</el-menu-item>
+          <el-menu-item index="/CSD/SSM">系统结构模型</el-menu-item>
+        </el-sub-menu>
+      </el-menu>
+    </el-header>
+    <el-main>
+      <RouterView />
+    </el-main>
+  </el-container>
+</template>
+<style>
+div#app {
+  padding: 0;
+}
+</style>
