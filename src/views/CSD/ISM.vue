@@ -49,7 +49,10 @@
             </el-table>
         </el-collapse-item>
         <el-collapse-item title="层次划分" name="04">
-
+            <el-table :data="levelElement" border>
+                <el-table-column prop="level" label="层级" />
+                <el-table-column prop="element" label="元素" />
+            </el-table>
         </el-collapse-item>
         <el-collapse-item title="强连通域" name="05">
             <el-table :data="strongDomain" border>
@@ -101,6 +104,10 @@ const reachable: Ref<TableMatrix> = ref(TableMatrix.create(['S1', 'S2', 'S3'], [
  * 显示弱连通域。
  */
 const weeklyDomain: Ref<{ s: string, a: string, d: string, m: string, t: string, domain: string }[]> = ref([]);
+/**
+ * 显示层级划分。
+ */
+const levelElement: Ref<{ level: string, element: string }[]> = ref([]);
 /**
  * 显示强连通域。
  */
@@ -227,6 +234,19 @@ function estimate() {
     reachableCode.value = 'R';
     // 计算弱连通域。
     weeklyDomain.value = estimateDomain(R, adjacency.codes);
+    // 计算层级划分。
+    const levels: { level: string, element: string }[] = [];
+    let level = 1;
+    let r = R;
+    const excludes: number[] = [];
+    while (excludes.length < R.height) {
+        let setT = estimateCommon(r, excludes);
+        levels.push({ level: `L${level++}`, element: `${setT.map<string>((value: number) => { return adjacency.codes[value]; }).join(',')}` });
+        excludes.push(...setT);
+    }
+    levelElement.value = levels;
+
+    // 计算强连通域。
     strongDomain.value = estimateDomain(SR, adjacency.codes);
     // 显示折叠面板。
     if (actives.value.indexOf('02') < 0) {
@@ -276,5 +296,38 @@ function estimateDomain(reachable: Matrix, codes: string[]): { s: string, a: str
         result.push({ s: codes[i], a: setA[i].map(item => codes[item]).join(','), d: setD[i].map(item => codes[item]).join(','), m: setM[i].map(item => codes[item]).join(','), t: setT.includes(i) ? '√' : '', domain: setT.includes(i) ? setA[i].map(item => codes[item]).join(',') : '' });
     }
     return result;
+}
+/**
+ * 计算共同集合。
+ * @param reachable 可达矩阵。
+ * @returns 共同集合。
+ */
+function estimateCommon(reachable: Matrix, excludes: number[]): number[] {
+    const size = reachable.height;
+    const setT: number[] = [];
+    const setA: number[][] = [];
+    const setD: number[][] = [];
+    const setM: number[][] = [];
+    // 计算共同集。
+    for (let i = 0; i < size; i++) {
+        setA.push([]);
+        setD.push([]);
+        setM.push([]);
+        if (excludes.includes(i) == true)
+            continue;
+        for (let j = 0; j < size; j++) {
+            if (excludes.includes(j) == true)
+                continue;
+            if (reachable.data[i][j] != 0)
+                setA[i].push(j);
+            if (reachable.data[j][i] != 0)
+                setD[i].push(j);
+            if (reachable.data[i][j] != 0 && reachable.data[j][i] != 0)
+                setM[i].push(j);
+        }
+        if (setD[i].every(item => { return setM[i].includes(item); }) && setM[i].every(item => { return setD[i].includes(item); }))
+            setT.push(i);
+    }
+    return setT;
 }
 </script>
