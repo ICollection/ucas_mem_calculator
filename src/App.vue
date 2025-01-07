@@ -13,7 +13,7 @@ import { RouterView } from 'vue-router'
         <el-sub-menu index="2">
           <template #title>复杂系统决策</template>
           <el-menu-item index="/CSD/AHP">层次分析法</el-menu-item>
-          <el-menu-item index="/CSD/SSM">系统结构模型</el-menu-item>
+          <el-menu-item index="/CSD/ISM">解释结构模型</el-menu-item>
         </el-sub-menu>
       </el-menu>
     </el-header>

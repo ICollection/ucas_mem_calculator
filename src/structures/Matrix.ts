@@ -56,7 +56,18 @@ export default class Matrix {
             data.push(new Array(width).fill(value));
         }
         return new Matrix(height, width, data);
-        // return new Matrix(height, width, new Array(height).fill([...new Array(width).fill(value)]));
+    }
+    /**
+     * 创建单位矩阵，
+     * @param size 矩阵大小。
+     * @returns 矩阵。
+     */
+    static createIdentity(size: number) {
+        const result = Matrix.create(size, size, 0);
+        for (let i = 0; i < size; i++) {
+            result.data[i][i] = 1;
+        }
+        return result;
     }
     /**
      * 矩阵转置。
@@ -244,6 +255,58 @@ export default class Matrix {
                 product = product * this.data[i][j];
             }
             result.data[i][0] = Math.pow(product, 1 / this.width);
+        }
+        return result;
+    }
+    /**
+     * 布尔并。
+     * @param matrix 矩阵。
+     * @returns 矩阵。
+     */
+    booleanJoin(matrix: Matrix): Matrix {
+        if (this.height != matrix.height || this.width != matrix.width)
+            throw new Error('两个矩阵的行列数不等。');
+        const result: Matrix = Matrix.create(this.height, this.width, 0);
+        for (let i = 0; i < this.height; i++) {
+            for (let j = 0; j < this.width; j++) {
+                result.data[i][j] = Math.max(this.data[i][j], matrix.data[i][j]);
+            }
+        }
+        return result;
+    }
+    /**
+     * 布尔交。
+     * @param matrix 矩阵。
+     * @returns 矩阵。
+     */
+    booleanMeet(matrix: Matrix): Matrix {
+        if (this.height != matrix.height || this.width != matrix.width)
+            throw new Error('两个矩阵的行列数不等。');
+        const result: Matrix = Matrix.create(this.height, this.width, 0);
+        for (let i = 0; i < this.height; i++) {
+            for (let j = 0; j < this.width; j++) {
+                result.data[i][j] = Math.min(this.data[i][j], matrix.data[i][j]);
+            }
+        }
+        return result;
+    }
+    /**
+     * 布尔乘。
+     * @param matrix 矩阵。
+     * @returns 矩阵。
+     */
+    booleanMultiply(matrix: Matrix): Matrix {
+        if (this.width != matrix.height)
+            throw new Error('阵一列与阵二行不相等。');
+        const result: Matrix = Matrix.create(this.height, matrix.width, 0);
+        for (let i = 0; i < this.height; i++) {
+            for (let j = 0; j < matrix.width; j++) {
+                let summary = 0;
+                for (let k = 0; k < this.width; k++) {
+                    summary = Math.max(summary, Math.min(this.data[i][k], matrix.data[k][j]));
+                }
+                result.data[i][j] = summary;
+            }
         }
         return result;
     }

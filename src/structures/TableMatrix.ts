@@ -229,11 +229,11 @@ export default class TableMatrix {
      * 转换为矩阵。
      * @returns 矩阵。
      */
-    toMatrix(): Matrix {
+    toMatrix(convert: (text: string) => number): Matrix {
         const result: Matrix = Matrix.create(this.height, this.width, 0);
         for (let i = 0; i < this.height; i++) {
             for (let j = 0; j < this.width; j++) {
-                result.data[i][j] = Rational.numerical(this.getValue(i, j));
+                result.data[i][j] = convert(this.getValue(i, j));
             }
         }
         return result;

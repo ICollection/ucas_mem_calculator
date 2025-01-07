@@ -22,9 +22,10 @@ const router = createRouter({
       component: () => import('../views/CSD/AHP.vue')
     },
     {
-      path: '/CSD/SSM',
-      name: 'csd_ssm',
-      component: () => import('../views/CSD/SSM.vue')
+      path: '/CSD/ISM',
+      name: 'csd_ism',
+      meta: { title: '解释结构模型' },
+      component: () => import('../views/CSD/ISM.vue')
     },
   ]
 });

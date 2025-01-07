@@ -61,6 +61,7 @@
                 <el-table-column prop="cr" label="一致性比率(CR)" :formatter="decimal" />
                 <el-table-column prop="consistency" label="一致性结果" />
             </el-table>
+            <el-text v-if="algorithm == '03'">尚未实现幂法计算。</el-text>
         </el-collapse-item>
         <el-collapse-item title="随机一致性表" name="03">
             <el-table :data="[consistency]" border>
@@ -252,7 +253,7 @@ function decimal(row: any, column: any, cellValue: any, index: number): VNode | 
  */
 function estimate() {
     // 层次分析计算。
-    const A: Matrix = comparison.toMatrix();
+    const A: Matrix = comparison.toMatrix(Rational.numerical);
     if (algorithm.value == '01') {
         // 采用和法计算。
         const normal: Matrix = A.normalizeByCol();
