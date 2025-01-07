@@ -26,4 +26,8 @@ import { RouterView } from 'vue-router'
 div#app {
   padding: 0;
 }
+
+input[aria-hidden=true] {
+  display: none !important;
+}
 </style>
