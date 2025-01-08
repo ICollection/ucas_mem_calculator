@@ -27,6 +27,12 @@ const router = createRouter({
       meta: { title: '解释结构模型' },
       component: () => import('../views/CSD/ISM.vue')
     },
+    {
+      path: '/CSD/PCA',
+      name: 'csd_pca',
+      meta: { title: '主成分分析法' },
+      component: () => import('../views/CSD/PCA.vue')
+    },
   ]
 });
 router.beforeEach((to: RouteLocationGeneric, from: RouteLocationNormalizedGeneric, next: NavigationGuardNext) => {

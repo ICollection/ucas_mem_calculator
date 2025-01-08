@@ -4,7 +4,7 @@
             导入例题
             <template #dropdown>
                 <el-dropdown-menu>
-                    <el-dropdown-item command="01">例4.1</el-dropdown-item>
+                    <el-dropdown-item command="01">例4-1</el-dropdown-item>
                 </el-dropdown-menu>
             </template>
         </el-dropdown>
@@ -76,8 +76,8 @@ import { onMounted, reactive, ref, type Reactive, type Ref, type VNode } from 'v
 import { type UploadFile, type UploadFiles } from 'element-plus';
 import { saveAs } from 'file-saver';
 import Matrix from '@/structures/Matrix';
-import TableMatrix from '@/structures/TableMatrix';
 import Rational from '@/structures/Rational';
+import TableMatrix from '@/structures/TableMatrix';
 /**
  * 近似算法。
  */
@@ -249,7 +249,7 @@ function decimal(row: any, column: any, cellValue: any, index: number): VNode | 
     return cellValue;
 }
 /**
- * 近似计算。
+ * 开始近似计算。
  */
 function estimate() {
     // 层次分析计算。

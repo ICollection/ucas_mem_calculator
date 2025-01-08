@@ -208,7 +208,7 @@ function changeReachable(value: string | number | boolean | undefined) {
     }
 }
 /**
- * 开始计算。
+ * 开始近似计算。
  */
 function estimate() {
     // 计算可达矩阵。

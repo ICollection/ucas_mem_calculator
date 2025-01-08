@@ -82,7 +82,7 @@ export default class TableMatrix {
      * @returns 绑定表矩阵。
      */
     static fromMatrix(colCodes: string[], colNames: string[], rowCodes: string[], rowNames: string[], matrix: Matrix): TableMatrix {
-        if (colCodes.length != colNames.length || rowCodes.length != rowNames.length || colCodes.length != matrix.height || rowCodes.length != matrix.width)
+        if (colCodes.length != colNames.length || rowCodes.length != rowNames.length || colCodes.length != matrix.width || rowCodes.length != matrix.height)
             throw new Error('行列编码名称数量不符。');
         if (colCodes.length < TableMatrix.minimum || colCodes.length > TableMatrix.maximum || rowCodes.length < TableMatrix.minimum || rowCodes.length > TableMatrix.maximum)
             throw new Error('矩阵行列数量超出限制。');
