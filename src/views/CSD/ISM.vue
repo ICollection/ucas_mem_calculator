@@ -4,7 +4,7 @@
             导入例题
             <template #dropdown>
                 <el-dropdown-menu>
-                    <el-dropdown-item command="01">第2.2章节例题</el-dropdown-item>
+                    <el-dropdown-item command="01">例2-1</el-dropdown-item>
                 </el-dropdown-menu>
             </template>
         </el-dropdown>

@@ -195,8 +195,6 @@ function enterEditableCell(row: any, column: any, cell: HTMLTableCellElement, ev
 function completeEditCell(scope: any) {
     // 验证输入格式。
     const text = scope.row[scope.column.property];
-    console.log(text);
-    console.log(Number.isFinite(+text));
     if (Number.isFinite(+text) == false) {
         scope.row[scope.column.property] = originals.get(`${scope.row.Code},${scope.column.property}`);
         return;
@@ -263,7 +261,6 @@ function estimate() {
     relation.value = TableMatrix.fromMatrix(original.codes, original.names, original.codes, original.names, relationMatrix);
     // 雅可比(Jacobi)旋转法求全部特征值。
     {
-
         let size = relationMatrix.width;
         let target: Matrix = relationMatrix;
         let product: Matrix = Matrix.createIdentity(size);

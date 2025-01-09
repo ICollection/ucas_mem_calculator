@@ -15,7 +15,6 @@ const router = createRouter({
       component: () => import('../views/QAMM/AHP.vue')
     },
     {
-
       path: '/CSD/AHP',
       name: 'csd_ahp',
       meta: { title: '层次分析法' },
@@ -26,6 +25,12 @@ const router = createRouter({
       name: 'csd_ism',
       meta: { title: '解释结构模型' },
       component: () => import('../views/CSD/ISM.vue')
+    },
+    {
+      path: '/CSD/FCA',
+      name: 'csd_fca',
+      meta: { title: '模糊聚类分析' },
+      component: () => import('../views/CSD/FCA.vue')
     },
     {
       path: '/CSD/PCA',

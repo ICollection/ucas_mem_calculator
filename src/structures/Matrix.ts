@@ -152,7 +152,7 @@ export default class Matrix {
         return result;
     }
     /**
-     * 按列归一化。
+     * 按行归一化。
      * @returns 归一化矩阵。
      */
     normalizeByRow(): Matrix {
@@ -164,6 +164,42 @@ export default class Matrix {
             }
             for (let j = 0; j < this.width; j++) {
                 result.data[i][j] = this.data[i][j] / summary;
+            }
+        }
+        return result;
+    }
+    /**
+     * 按列规范化。
+     * @returns 规范化矩阵。
+     */
+    standardizeByCol(): Matrix {
+        const result: Matrix = Matrix.create(this.height, this.width, 0);
+        for (let j = 0; j < this.width; j++) {
+            let max = this.data[0][j], min = this.data[0][j];
+            for (let i = 0; i < this.height; i++) {
+                max = Math.max(max, this.data[i][j]);
+                min = Math.min(min, this.data[i][j]);
+            }
+            for (let i = 0; i < this.height; i++) {
+                result.data[i][j] = (this.data[i][j] - min) / (max - min);
+            }
+        }
+        return result;
+    }
+    /**
+     * 按行规范化。
+     * @returns 规范化矩阵。
+     */
+    standardizeByRow(): Matrix {
+        const result: Matrix = Matrix.create(this.height, this.width, 0);
+        for (let i = 0; i < this.height; i++) {
+            let max = this.data[i][0], min = this.data[i][0];
+            for (let j = 0; j < this.width; j++) {
+                max = Math.max(max, this.data[i][j]);
+                min = Math.min(min, this.data[i][j]);
+            }
+            for (let j = 0; j < this.width; j++) {
+                result.data[i][j] = (this.data[i][j] - min) / (max - min);
             }
         }
         return result;
