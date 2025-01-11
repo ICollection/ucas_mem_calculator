@@ -1,5 +1,4 @@
 import Matrix from "./Matrix";
-import Rational from "./Rational";
 /**
  * 绑定表矩阵。
  */

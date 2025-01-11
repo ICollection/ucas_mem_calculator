@@ -9,6 +9,13 @@ const router = createRouter({
     },
     {
 
+      path: '/QAMM/BAP',
+      name: 'qamm_bap',
+      meta: { title: '效益分配问题' },
+      component: () => import('../views/QAMM/BAP.vue')
+    },
+    {
+
       path: '/QAMM/AHP',
       name: 'qamm_ahp',
       meta: { title: '层次分析法' },
