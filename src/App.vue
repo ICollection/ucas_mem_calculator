@@ -4,7 +4,7 @@ import { RouterView } from 'vue-router'
 <template>
   <el-container style="height: 100vh; width: 100vw;">
     <el-header>
-      <el-menu mode="horizontal" router>
+      <el-menu mode="horizontal" router default-active="/QAMM/BAP">
         <el-sub-menu index="1">
           <template #title>定量分析</template>
           <el-menu-item index="/QAMM/BAP">效益分配问题</el-menu-item>

@@ -5,7 +5,13 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/QAMM/AHP'
+      redirect: '/Index'
+    },
+    {
+      path: '/Index',
+      name: 'index',
+      meta: { title: '目录' },
+      component: () => import('../views/Index.vue')
     },
     {
 
