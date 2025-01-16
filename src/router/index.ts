@@ -21,17 +21,16 @@ const router = createRouter({
       component: () => import('../views/QAMM/BAP.vue')
     },
     {
-
+      path: '/QAMM/OSM',
+      name: 'qamm_osm',
+      meta: { title: '优选法' },
+      component: () => import('../views/QAMM/OSM.vue')
+    },
+    {
       path: '/QAMM/AHP',
       name: 'qamm_ahp',
       meta: { title: '层次分析法' },
       component: () => import('../views/QAMM/AHP.vue')
-    },
-    {
-      path: '/CSD/AHP',
-      name: 'csd_ahp',
-      meta: { title: '层次分析法' },
-      component: () => import('../views/CSD/AHP.vue')
     },
     {
       path: '/CSD/ISM',
@@ -44,6 +43,12 @@ const router = createRouter({
       name: 'csd_fca',
       meta: { title: '模糊聚类分析' },
       component: () => import('../views/CSD/FCA.vue')
+    },
+    {
+      path: '/CSD/AHP',
+      name: 'csd_ahp',
+      meta: { title: '层次分析法' },
+      component: () => import('../views/CSD/AHP.vue')
     },
     {
       path: '/CSD/PCA',

@@ -8,6 +8,7 @@ import { RouterView } from 'vue-router'
         <el-sub-menu index="1">
           <template #title>定量分析</template>
           <el-menu-item index="/QAMM/BAP">效益分配问题</el-menu-item>
+          <el-menu-item index="/QAMM/OSM">优选法</el-menu-item>
           <el-menu-item index="/QAMM/AHP">层次分析法</el-menu-item>
         </el-sub-menu>
         <el-sub-menu index="2">
