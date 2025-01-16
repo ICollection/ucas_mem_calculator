@@ -37,6 +37,8 @@
                         <span>%</span>
                     </template>
                 </el-input-number>
+                <el-divider direction="vertical" />
+                <el-text size="large"><math v-html="_formula"></math></el-text>
             </el-space>
         </el-collapse-item>
         <el-collapse-item title="计算结果(斐波那契法)" name="02">
@@ -93,7 +95,7 @@
     </el-collapse>
 </template>
 <script lang="ts" setup>
-import { onMounted, reactive, ref, type Reactive, type Ref, type VNode } from 'vue';
+import { onMounted, reactive, ref, watch, type Reactive, type Ref, type VNode } from 'vue';
 import type { UploadFile, UploadFiles } from 'element-plus';
 import saveAs from 'file-saver';
 import Table from '@/structures/Table';
@@ -105,6 +107,10 @@ const _precision: Ref<number> = ref(4);
  * 问题描述。
  */
 const _problem: Reactive<{ factors: string, region: string, largest: boolean, target: number }> = reactive({ factors: '1,2,2', region: '0,10', largest: false, target: 8 });
+/**
+ * 问题数学描述。
+ */
+const _formula: Ref<string> = ref('<mi>f</mi><mo>(</mo><mi>x</mi><mo>)=</mo><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><mn>2</mn><mi>x</mi><mo>+</mo><mn>2</mn><mtext>，</mtext><mi>x</mi><mo>∈[</mo><mn>0</mn><mo>,</mo><mn>10</mn><mo>]</mo>');
 /**
  * 活动面板。
  */
@@ -125,6 +131,59 @@ const _theta: Reactive<{ lower: number, upper: number, target: number, final: nu
 * 加载页面。
 */
 onMounted(() => {
+});
+/**
+ * 监控问题描述。
+ */
+watch(_problem, (newValue, oldValue) => {
+    // 获取用户输入。
+    const factors: number[] = [];
+    for (const factor of _problem.factors.split(',')) {
+        if (Number.isNaN(Number(factor))) {
+            _formula.value = '<mtext>函数系数格式错误。</mtext>';
+            return;
+        }
+        factors.push(Number(factor));
+    }
+    if (factors[0] == 0) {
+        _formula.value = '<mtext>函数系数格式错误。</mtext>';
+        return;
+    }
+    const largest: boolean = _problem.largest;
+    const lowerLimit: number = Number(_problem.region.split(',')[0]);
+    const upperLimit: number = Number(_problem.region.split(',')[1]);
+    if (Number.isNaN(lowerLimit) || Number.isNaN(upperLimit) || lowerLimit >= upperLimit) {
+        _formula.value = '<mtext>取值区间格式错误。</mtext>';
+        return;
+    }
+    const target: number = _problem.target;
+    // 拼写数学描述。
+    const formulae: string[] = [];
+    formulae.push('<mi>f</mi><mo>(</mo><mi>x</mi><mo>)=</mo>');
+    for (let i = 0; i < factors.length; i++) {
+        if (factors[i] > 0 && i > 0)
+            formulae.push('<mo>+</mo>');
+        if (factors[i] < 0)
+            formulae.push('<mo>-</mo>');
+        if (factors[i] != 0) {
+            if (factors.length - 1 - i == 0)
+                formulae.push(`<mn>${Math.abs(factors[i])}</mn>`);
+            else if (factors.length - 1 - i == 1) {
+                if (Math.abs(factors[i]) == 1)
+                    formulae.push(`<mi>x</mi>`);
+                else
+                    formulae.push(`<mn>${Math.abs(factors[i])}</mn><mi>x</mi>`);
+            }
+            else {
+                if (Math.abs(factors[i]) == 1)
+                    formulae.push(`<msup><mi>x</mi><mn>${factors.length - 1 - i}</mn></msup>`);
+                else
+                    formulae.push(`<mn>${Math.abs(factors[i])}</mn><msup><mi>x</mi><mn>${factors.length - 1 - i}</mn></msup>`);
+            }
+        }
+    }
+    formulae.push(`<mtext>，</mtext><mi>x</mi><mo>∈[</mo><mn>${lowerLimit}</mn><mo>,</mo><mn>${upperLimit}</mn><mo>]</mo>`);
+    _formula.value = formulae.join('');
 });
 /**
  * 导入例题。
