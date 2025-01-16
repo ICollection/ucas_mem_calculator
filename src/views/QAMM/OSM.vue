@@ -23,13 +23,15 @@
     <el-collapse v-model="_actives">
         <el-collapse-item title="题目约束" name="01">
             <el-space wrap>
+                <el-text size="large"><math v-html="_formula"></math></el-text>
+                <el-divider direction="vertical" />
                 <el-text>函数系数：</el-text>
                 <el-input v-model="_problem.factors" style="width: 72px" placeholder="从高到低逗号分隔" />
                 <el-divider direction="vertical" />
-                <el-switch v-model="_problem.largest" active-text="极大值" inactive-text="极小值" />
-                <el-divider direction="vertical" />
                 <el-text>取值区间：</el-text>
                 <el-input v-model="_problem.region" style="width: 72px" placeholder="自变量初始取值域" />
+                <el-divider direction="vertical" />
+                <el-switch v-model="_problem.largest" active-text="极大值" inactive-text="极小值" />
                 <el-divider direction="vertical" />
                 <el-text>目标缩至：</el-text>
                 <el-input-number v-model="_problem.target" :min="1" :max="20">
@@ -37,8 +39,6 @@
                         <span>%</span>
                     </template>
                 </el-input-number>
-                <el-divider direction="vertical" />
-                <el-text size="large"><math v-html="_formula"></math></el-text>
             </el-space>
         </el-collapse-item>
         <el-collapse-item title="计算结果(斐波那契法)" name="02">

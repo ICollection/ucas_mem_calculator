@@ -27,6 +27,12 @@ const router = createRouter({
       component: () => import('../views/QAMM/OSM.vue')
     },
     {
+      path: '/QAMM/SPA',
+      name: 'qamm_spa',
+      meta: { title: '单纯形法' },
+      component: () => import('../views/QAMM/SPA.vue')
+    },
+    {
       path: '/QAMM/AHP',
       name: 'qamm_ahp',
       meta: { title: '层次分析法' },
