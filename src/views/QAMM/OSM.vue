@@ -51,35 +51,7 @@
                 <el-table-column prop="LowerValue" label="函数值1" :formatter="decimal" align="right" header-align="center" />
                 <el-table-column prop="UpperValue" label="函数值2" :formatter="decimal" align="right" header-align="center" />
             </el-table>
-            <el-text size="large">
-                <math>
-                    <mtext>其中：</mtext>
-                    <mn>0</mn>
-                    <mo>&lt;</mo>
-                    <mi>θ</mi>
-                    <mo>&lt;(</mo>
-                    <mn>{{ _theta.upper }}</mn>
-                    <mo>-</mo>
-                    <mn>{{ _theta.lower }}</mn>
-                    <mo>)×(</mo>
-                    <mn>{{ _theta.target }}</mn>
-                    <mo>%-</mo>
-                    <mfrac>
-                        <mrow>
-                            <mn>1</mn>
-                        </mrow>
-                        <mrow>
-                            <mn>{{ _theta.final }}</mn>
-                        </mrow>
-                    </mfrac>
-                    <mo>)≈</mo>
-                    <mn>{{ decimal(null, null, (_theta.upper - _theta.lower) * (_theta.target / 100 - 1 / _theta.final), 0) }}</mn>
-                    <mtext>，选择</mtext>
-                    <mi>θ</mi>
-                    <mo>=</mo>
-                    <mn>{{ decimal(null, null, (_theta.upper - _theta.lower) * (_theta.target / 100 - 1 / _theta.final) / 2, 0) }}</mn>
-                </math>
-            </el-text>
+            <el-text size="large"><math v-html="_condition"></math></el-text>
         </el-collapse-item>
         <el-collapse-item title="计算结果(黄金分割法)" name="03">
             <el-table :data="_iterations2.rows" border>
@@ -126,7 +98,7 @@ const _iterations2: Ref<Table> = ref(Table.create(['Ordinal', 'LowerBound', 'Low
 /**
  * θ 表达式。
  */
-const _theta: Reactive<{ lower: number, upper: number, target: number, final: number }> = reactive({ lower: 0, upper: 10, target: 8, final: 13 });
+const _condition: Ref<string> = ref('');
 /**
 * 加载页面。
 */
@@ -300,10 +272,14 @@ function estimate() {
         }
         iterations.increaseRow({ Ordinal: 'Final', LowerBound: lowerBound, LowerPoint: null, UpperPoint: null, UpperBound: upperBound, LowerValue: null, UpperValue: null });
         _iterations1.value = iterations;
-        _theta.lower = lowerLimit;
-        _theta.upper = upperLimit;
-        _theta.target = target;
-        _theta.final = fibonaccis[fibonaccis.length - 1];
+        // 显示 0 取值。
+        const condition: string[] = [];
+        condition.push('<mtext>其中：</mtext><mn>0</mn><mo>&lt;</mo><mi>θ</mi><mo>&lt;(</mo>');
+        condition.push(`<mn>${upperLimit}</mn><mo>-</mo><mn>${lowerLimit}</mn><mo>)×(</mo><mn>${target}</mn><mo>%-</mo><mfrac><mrow><mn>1</mn></mrow><mrow><mn>${fibonaccis[fibonaccis.length - 1]}</mn></mrow></mfrac><mo>)≈</mo>`);
+        condition.push(`<mn>${((upperLimit - lowerLimit) * (target / 100 - 1 / fibonaccis[fibonaccis.length - 1])).toFixed(_precision.value)}</mn>`);
+        condition.push('<mtext>，选择</mtext><mi>θ</mi><mo>=</mo>');
+        condition.push(`<mn>${((upperLimit - lowerLimit) * (target / 100 - 1 / fibonaccis[fibonaccis.length - 1]) / 2).toFixed(_precision.value)}</mn>`);
+        _condition.value = condition.join('');
     }
     // 黄金分割迭代。
     {
